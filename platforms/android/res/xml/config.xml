@@ -6,15 +6,18 @@
         <param name="onload" value="true" />
     </feature>
     <allow-intent href="market:*" />
-    <name>HelloCordova</name>
+    <preference name="KeepRunning" value="false" />
+    <preference name="SetFullscreen" value="True" />
+    <name>Whack-A-Password</name>
     <description>
-        A sample Apache Cordova application that responds to the deviceready event.
+        Whack-dem-passwords
     </description>
-    <author email="dev@cordova.apache.org" href="http://cordova.io">
-        Apache Cordova Team
+    <author email="piccot@live.unc.edu" href="http://cordova.io">
+       Daniel Piccot and Matt Hill
     </author>
-    <content src="index.html" />
+    <content src="whack.html" />
     <access origin="*" />
+    <preference name="Orientation" value="portrait" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <allow-intent href="tel:*" />
