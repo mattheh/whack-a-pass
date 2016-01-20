@@ -37,14 +37,14 @@ document.body.appendChild(canvas)
 
 var moleArr = []
 
-for (i = 0; i < 3; i++)
+for (i = 0; i < 2; i++)
 	for(j=0;j <3;j++)
-                moleArr.push(new moleHole(i*(window.innerWidth/3),j*(window.innerHeight/3)))
+                moleArr.push(new moleHole(i*(window.innerWidth/2),j*(window.innerHeight/3)))
 function render(){		
         ctx.font = "18px Helvetica";
         ctx.strokeStyle = "white";
         ctx.drawImage(bgImage,0,0,window.innerWidth,window.innerHeight)
-	for(i=0; i < 9; i++){
+	for(i=0; i < 6; i++){
                 ctx.drawImage(moleArr[i].img,moleArr[i].x,moleArr[i].y,moleArr[i].width, moleArr[i].height)
                 ctx.strokeText("password " + i, moleArr[i].x, moleArr[i].y + moleArr[i].height/2);
 	}
