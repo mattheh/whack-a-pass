@@ -3,7 +3,8 @@ var app = {
 
     initialize: function() {
         this.bindEvents();
-    },
+		loadJSONData()
+	},
 
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
@@ -43,3 +44,32 @@ function render(){
 	requestAnimationFrame(render)
 }
 render();
+
+function loadJSONData(){
+var xmlhttp;
+var jsonObject;
+
+// code for IE7+, Firefox, Chrome, Opera, Safari
+if (window.XMLHttpRequest)
+{
+    xmlhttp=new XMLHttpRequest();
+}
+// code for IE6, IE5
+else
+{
+    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+}
+
+xmlhttp.onreadystatechange=function()
+{
+    if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+        jsonObject = JSON.parse(xmlhttp.responseText);
+        alert(jsonObject[0].Password);                     
+    }
+}
+
+xmlhttp.open("GET","gamedata/whack.json",true);
+xmlhttp.send();
+
+}
