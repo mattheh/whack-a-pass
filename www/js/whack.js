@@ -3,7 +3,7 @@ var app = {
   
     initialize: function() {
         this.bindEvents();
-		jsonObject = JSON.parse('[{"Password":"password123","Type": 1},{"Password":"I<3Horses","Type": 1},{"Password":"JknsD3@anmAiLfknsma!","Type": 1},{ "Password":"HappyDays","Type": 1},{"Password":"TheBestPassword","Type": 1},{"Password":"TheBestPassword","Type": 1},{"Password":"TheWorstPassword","Type": 1},{"Password":"2@Atak","Type": 2},{"Password":"24pples2D4y","Type": 2},{"Password":"IWasBornIn1919191995","Type": 2},{"Password":"IWasBornIn1919191995","Type": 2},{"Password":"2BorNot2B_ThatIsThe?","Type": 3},{"Password":"4Score&7yrsAgo","Type": 3}]');
+			
 		//loadJSONData()
 	},
 
@@ -12,7 +12,9 @@ var app = {
     },
 
     onDeviceReady: function() {
-        
+        jsonObject = JSON.parse('[{"Password":"password123","Type": 1},{"Password":"I<3Horses","Type": 1},{"Password":"JknsD3@anmAiLfknsma!","Type": 1},{ "Password":"HappyDays","Type": 1},{"Password":"TheBestPassword","Type": 1},{"Password":"TheBestPassword","Type": 1},{"Password":"TheWorstPassword","Type": 1},{"Password":"2@Atak","Type": 2},{"Password":"24pples2D4y","Type": 2},{"Password":"IWasBornIn1919191995","Type": 2},{"Password":"IWasBornIn1919191995","Type": 2},{"Password":"2BorNot2B_ThatIsThe?","Type": 3},{"Password":"4Score&7yrsAgo","Type": 3}]');
+		lastTime = Date.now()
+		main();	
     },
 
 };
@@ -61,13 +63,31 @@ function render(){
 	}
 	
 }
-main();
-function main (){
-	
 
+var lastTime;
+function main (){
+	editObjects(Date.now() - lastTime)
+	lastTime = Date.now()
 	render()
 	requestAnimationFrame(main)
 }
+var millisecondsPerMole = 3000;
+function editObjects(dt){
+	for (i=0;i<6;i++){
+		if (Math.random() < (1/millisecondsPerMole)*dt && moleArr[i].mole == null){
+			var random = getRandomInt(0,jsonObject.length -1)
+			moleArr[i].mole = new mole(jsonObject[random].Password,jsonObject[random].Type)
+			console.log(moleArr[i].mole)
+		}
+			
+	}
+
+}
+
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 function loadJSONData(){
 var xmlhttp;
 var jsonObject;
