@@ -72,11 +72,20 @@ function main (){
 var millisecondsPerMole = 3000;
 function editObjects(dt){
 	for (i=0;i<6;i++){
-		if (Math.random() < (1/millisecondsPerMole)*dt && moleArr[i].mole == null)
-			console.log("works")
+		if (Math.random() < (1/millisecondsPerMole)*dt && moleArr[i].mole == null){
+			var random = getRandomInt(0,jsonObject.length -1)
+			moleArr[i].mole = new mole(jsonObject[random].Password,jsonObject[random].Type)
+			console.log(moleArr[i].mole)
+		}
+			
 	}
 
 }
+
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 function loadJSONData(){
 var xmlhttp;
 var jsonObject;
