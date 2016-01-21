@@ -20,7 +20,6 @@ var app = {
 };
 var baseDelay = 5000
 var score = 0;
-app.initialize();
 var bgImage = new Image();
 bgImage.src = 'img/grass.jpg';
 function moleHole(x,y){
@@ -116,3 +115,5 @@ xmlhttp.open("GET","gamedata/whack.json",true);
 xmlhttp.send();
 
 }
+
+app.onDeviceReady();
