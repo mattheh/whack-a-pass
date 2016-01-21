@@ -27,13 +27,16 @@ function moleHole(x,y){
 	this.y=y;
         this.width = window.innerWidth/2;
         this.height = window.innerHeight/4;
-	var tempImage = new Image();
-	tempImage.src = 'img/mole_hole.png';
-	this.img = tempImage;
+	var holeImage = new Image();
+	holeImage.src = 'img/mole_hole.png';
+	this.img = holeImage;
 	this.mole = null;
 }
 
 function mole(password,type){
+        var moleImage = new Image();
+        moleImage.src = 'img/mole_red.png';
+        this.img = moleImage;
 	this.password = password;
 	this.type = type;
 	this.delay = baseDelay;
@@ -50,7 +53,7 @@ var moleArr = []
 
 for (i = 0; i < 2; i++)
 	for(j=0;j <3;j++)
-                moleArr.push(new moleHole(i*(window.innerWidth/2),(j*3+2)*(window.innerHeight/10)))
+                moleArr.push(new moleHole(i*(window.innerWidth/2),(j*3+1)*(window.innerHeight/10)))
 function render(){		
         ctx.font = "18px Helvetica";
         ctx.strokeStyle = "white";
@@ -58,6 +61,9 @@ function render(){
         ctx.strokeText("Score: " + score,10,40);
 	for(i=0; i < 6; i++){
                 ctx.drawImage(moleArr[i].img,moleArr[i].x,moleArr[i].y,moleArr[i].width, moleArr[i].height)
+                if (moleArr[i].mole){
+                    ctx.drawImage(moleArr[i].mole.img,moleArr[i].x,moleArr[i].y,moleArr[i].width, moleArr[i].height)
+                }
                 //ctx.strokeText("password " + i, moleArr[i].x, moleArr[i].y + moleArr[i].height/2);
 	}
 	
