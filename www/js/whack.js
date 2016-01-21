@@ -3,7 +3,8 @@ var app = {
   
     initialize: function() {
         this.bindEvents();
-		loadJSONData()
+		jsonObject = JSON.parse('[{"Password":"password123","Type": 1},{"Password":"I<3Horses","Type": 1},{"Password":"JknsD3@anmAiLfknsma!","Type": 1},{ "Password":"HappyDays","Type": 1},{"Password":"TheBestPassword","Type": 1},{"Password":"TheBestPassword","Type": 1},{"Password":"TheWorstPassword","Type": 1},{"Password":"2@Atak","Type": 2},{"Password":"24pples2D4y","Type": 2},{"Password":"IWasBornIn1919191995","Type": 2},{"Password":"IWasBornIn1919191995","Type": 2},{"Password":"2BorNot2B_ThatIsThe?","Type": 3},{"Password":"4Score&7yrsAgo","Type": 3}]');
+		//loadJSONData()
 	},
 
     bindEvents: function() {
@@ -15,7 +16,7 @@ var app = {
     },
 
 };
-
+var baseDelay = 5000
 app.initialize();
 var bgImage = new Image();
 bgImage.src = 'img/grass.jpg';
@@ -27,6 +28,14 @@ function moleHole(x,y){
 	var tempImage = new Image();
 	tempImage.src = 'img/mole_hole.png';
 	this.img = tempImage;
+	this.mole = null;
+}
+
+function mole(password,type){
+	this.password = password;
+	this.type = type;
+	this.delay = baseDelay;
+
 }
 
 var canvas = document.createElement("canvas");
@@ -48,10 +57,15 @@ function render(){
                 ctx.drawImage(moleArr[i].img,moleArr[i].x,moleArr[i].y,moleArr[i].width, moleArr[i].height)
                 ctx.strokeText("password " + i, moleArr[i].x, moleArr[i].y + moleArr[i].height/2);
 	}
-	requestAnimationFrame(render)
+	
 }
-render();
+main();
+function main (){
+	
 
+	render()
+	requestAnimationFrame(main)
+}
 function loadJSONData(){
 var xmlhttp;
 var jsonObject;
