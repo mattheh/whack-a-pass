@@ -3,7 +3,8 @@ var app = {
   
     initialize: function() {
         this.bindEvents();
-		loadJSONData()
+		jsonObject = JSON.parse('[{"Password":"password123","Type": 1},{"Password":"I<3Horses","Type": 1},{"Password":"JknsD3@anmAiLfknsma!","Type": 1},{ "Password":"HappyDays","Type": 1},{"Password":"TheBestPassword","Type": 1},{"Password":"TheBestPassword","Type": 1},{"Password":"TheWorstPassword","Type": 1},{"Password":"2@Atak","Type": 2},{"Password":"24pples2D4y","Type": 2},{"Password":"IWasBornIn1919191995","Type": 2},{"Password":"IWasBornIn1919191995","Type": 2},{"Password":"2BorNot2B_ThatIsThe?","Type": 3},{"Password":"4Score&7yrsAgo","Type": 3}]');
+		//loadJSONData()
 	},
 
     bindEvents: function() {
@@ -15,18 +16,27 @@ var app = {
     },
 
 };
-
+var baseDelay = 5000
+var score = 0;
 app.initialize();
 var bgImage = new Image();
 bgImage.src = 'img/grass.jpg';
 function moleHole(x,y){
 	this.x = x;
 	this.y=y;
-        this.width = window.innerWidth/3;
-        this.height = window.innerHeight/3;
+        this.width = window.innerWidth/2;
+        this.height = window.innerHeight/4;
 	var tempImage = new Image();
 	tempImage.src = 'img/mole_hole.png';
 	this.img = tempImage;
+	this.mole = null;
+}
+
+function mole(password,type){
+	this.password = password;
+	this.type = type;
+	this.delay = baseDelay;
+
 }
 
 var canvas = document.createElement("canvas");
@@ -39,19 +49,25 @@ var moleArr = []
 
 for (i = 0; i < 2; i++)
 	for(j=0;j <3;j++)
-                moleArr.push(new moleHole(i*(window.innerWidth/2),j*(window.innerHeight/3)))
+                moleArr.push(new moleHole(i*(window.innerWidth/2),(j*3+2)*(window.innerHeight/10)))
 function render(){		
         ctx.font = "18px Helvetica";
         ctx.strokeStyle = "white";
         ctx.drawImage(bgImage,0,0,window.innerWidth,window.innerHeight)
+        ctx.strokeText("Score: " + score,10,40);
 	for(i=0; i < 6; i++){
                 ctx.drawImage(moleArr[i].img,moleArr[i].x,moleArr[i].y,moleArr[i].width, moleArr[i].height)
-                ctx.strokeText("password " + i, moleArr[i].x, moleArr[i].y + moleArr[i].height/2);
+                //ctx.strokeText("password " + i, moleArr[i].x, moleArr[i].y + moleArr[i].height/2);
 	}
-	requestAnimationFrame(render)
+	
 }
-render();
+main();
+function main (){
+	
 
+	render()
+	requestAnimationFrame(main)
+}
 function loadJSONData(){
 var xmlhttp;
 var jsonObject;
