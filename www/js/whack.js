@@ -38,8 +38,9 @@ function mole(password,type){
         moleImage.src = 'img/mole_red.png';
         this.img = moleImage;
 	this.password = password;
-	this.type = type;
+	this.targetType = type;
 	this.delay = baseDelay;
+	this.currentType = 3
 
 }
 
@@ -54,7 +55,8 @@ var moleArr = []
 for (i = 0; i < 2; i++)
 	for(j=0;j <3;j++)
                 moleArr.push(new moleHole(i*(window.innerWidth/2),(j*3+1)*(window.innerHeight/10)))
-function render(){		
+function render(){	
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.font = "18px Helvetica";
         ctx.strokeStyle = "white";
         ctx.drawImage(bgImage,0,0,window.innerWidth,window.innerHeight)
@@ -84,6 +86,29 @@ function editObjects(dt){
 			moleArr[i].mole = new mole(jsonObject[random].Password,jsonObject[random].Type)
 			console.log(moleArr[i].mole)
 		}
+		if(moleArr[i].mole != null){
+			moleArr[i].mole.delay = moleArr[i].mole.delay - dt
+			
+			if(moleArr[i].mole.delay <= 0){
+			if(moleArr[i].mole.currentType == 3){
+				var moleImage = new Image();
+				moleImage.src = 'img/mole_yellow.png';
+				moleArr[i].mole.img  = moleImage;
+				moleArr[i].mole.currentType = 2;
+				moleArr[i].mole.delay = baseDelay;
+			} else if (moleArr[i].mole.currentType == 2){
+				var moleImage = new Image();
+				moleImage.src = 'img/mole_green.png';
+				moleArr[i].mole.img  = moleImage;
+				moleArr[i].mole.currentType = 1;
+				moleArr[i].mole.delay = baseDelay;
+			} else {
+				moleArr[i].mole = null;
+			
+			}
+		}
+		}
+				
 			
 	}
 
