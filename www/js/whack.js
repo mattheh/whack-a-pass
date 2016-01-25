@@ -22,6 +22,8 @@ var app = {
 };
 var baseDelay = 5000
 var score = 0;
+var lives =3;
+var timer = 120000
 var bgImage = new Image();
 bgImage.src = 'img/grass.jpg';
 function moleHole(x,y){
@@ -59,6 +61,15 @@ for (i = 0; i < 2; i++)
                 moleArr.push(new moleHole(i*(window.innerWidth/2),(j*3+1)*(window.innerHeight/10)))
 var lastTime;
 function update(){
+	timer = timer - (Date.now() - lastTime)
+	if(timer <= 0 || lives <=0){
+		alert('Final Score: ' + score)
+		timer = 120000;
+		lives = 3;
+		score = 0;
+		for(j=0;j<6;j++)
+			moleArr[j].mole = null
+	}
 	editObjects(Date.now() - lastTime)
 }
 var xOffset = 0;
@@ -73,9 +84,9 @@ function clickHandler(e){
 			for(j=0;j<6;j++){
 				if(e.touches[i].pageX >= moleArr[j].x && e.touches[i].pageX <= moleArr[j].x +moleArr[j].width && e.touches[i].pageY >= moleArr[j].y && e.touches[i].pageY <= moleArr[j].y + moleArr[j].height){
 					if(moleArr[j].mole.targetType == moleArr[j].mole.currentType)
-						score++;
+						score = score + Math.floor(moleArr[j].mole.delay/10)
 					else
-						score--;
+						lives--;
 					moleArr[j].mole = null
 				}
 			}
@@ -109,13 +120,12 @@ function main (){
 	render()
 	requestAnimationFrame(main)
 }
-var millisecondsPerMole = 3000;
+var millisecondsPerMole = 4500;
 function editObjects(dt){
 	for (i=0;i<6;i++){
 		if (Math.random() < (1/millisecondsPerMole)*dt && moleArr[i].mole == null){
 			var random = getRandomInt(0,jsonObject.length -1)
 			moleArr[i].mole = new mole(jsonObject[random].Password,jsonObject[random].Type)
-			console.log(moleArr[i].mole)
 		}
 		if(moleArr[i].mole != null){
 			moleArr[i].mole.delay = moleArr[i].mole.delay - dt
