@@ -55,6 +55,10 @@ var moleArr = []
 for (i = 0; i < 2; i++)
 	for(j=0;j <3;j++)
                 moleArr.push(new moleHole(i*(window.innerWidth/2),(j*3+1)*(window.innerHeight/10)))
+var lastTime;
+function update(){
+	editObjects(Date.now() - lastTime)
+}
 function render(){	
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.font = "18px Helvetica";
@@ -71,9 +75,8 @@ function render(){
 	
 }
 
-var lastTime;
 function main (){
-	editObjects(Date.now() - lastTime)
+        update()
 	lastTime = Date.now()
 	render()
 	requestAnimationFrame(main)
