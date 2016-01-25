@@ -9,10 +9,12 @@ var app = {
 
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
+		
     },
 
     onDeviceReady: function() {
-        jsonObject = JSON.parse('[{"Password":"password123","Type": 1},{"Password":"I<3Horses","Type": 1},{"Password":"JknsD3@anmAiLfknsma!","Type": 1},{ "Password":"HappyDays","Type": 1},{"Password":"TheBestPassword","Type": 1},{"Password":"TheBestPassword","Type": 1},{"Password":"TheWorstPassword","Type": 1},{"Password":"2@Atak","Type": 2},{"Password":"24pples2D4y","Type": 2},{"Password":"IWasBornIn1919191995","Type": 2},{"Password":"IWasBornIn1919191995","Type": 2},{"Password":"2BorNot2B_ThatIsThe?","Type": 3},{"Password":"4Score&7yrsAgo","Type": 3}]');
+		addEventListener("touchstart",clickHandler);
+        jsonObject = JSON.parse('[{"Password":"password123","Type": 3},{"Password":"I<3Horses","Type": 3},{"Password":"JknsD3@anmAiLfknsma!","Type": 3},{ "Password":"HappyDays","Type": 3},{"Password":"TheBestPassword","Type": 3},{"Password":"TheBestPassword","Type": 3},{"Password":"TheWorstPassword","Type": 3},{"Password":"2@Atak","Type": 2},{"Password":"24pples2D4y","Type": 2},{"Password":"IWasBornIn1919191995","Type": 2},{"Password":"IWasBornIn1919191995","Type": 2},{"Password":"2BorNot2B_ThatIsThe?","Type": 1},{"Password":"4Score&7yrsAgo","Type": 1}]');
 		lastTime = Date.now()
 		main();	
     },
@@ -62,6 +64,24 @@ function update(){
 var xOffset = 0;
 function calculateXOffset(string){
         return string.length * 4;
+}
+function clickHandler(e){
+	
+	
+	
+		for(i=0;i<e.touches.length;i++){
+			for(j=0;j<6;j++){
+				if(e.touches[i].pageX >= moleArr[j].x && e.touches[i].pageX <= moleArr[j].x +moleArr[j].width && e.touches[i].pageY >= moleArr[j].y && e.touches[i].pageY <= moleArr[j].y + moleArr[j].height){
+					if(moleArr[j].mole.targetType == moleArr[j].mole.currentType)
+						score++;
+					else
+						score--;
+					moleArr[j].mole = null
+				}
+			}
+		}
+	
+
 }
 function render(){	
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
