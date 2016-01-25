@@ -59,18 +59,26 @@ var lastTime;
 function update(){
 	editObjects(Date.now() - lastTime)
 }
+var xOffset = 0;
+function calculateXOffset(string){
+        return string.length * 4;
+}
 function render(){	
-		ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.font = "18px Helvetica";
-        ctx.strokeStyle = "white";
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.font = "16px Helvetica";
+        ctx.fillStyle = "white";
+        ctx.strokeStyle = "black";
         ctx.drawImage(bgImage,0,0,window.innerWidth,window.innerHeight)
         ctx.strokeText("Score: " + score,10,40);
+        ctx.fillText("Score: " + score,10,40);
 	for(i=0; i < 6; i++){
                 ctx.drawImage(moleArr[i].img,moleArr[i].x,moleArr[i].y,moleArr[i].width, moleArr[i].height)
                 if (moleArr[i].mole){
+                    xOffset = calculateXOffset(moleArr[i].mole.password)
                     ctx.drawImage(moleArr[i].mole.img,moleArr[i].x,moleArr[i].y,moleArr[i].width, moleArr[i].height)
+                    ctx.strokeText(moleArr[i].mole.password,moleArr[i].x + moleArr[i].width/2 - xOffset,moleArr[i].y + moleArr[i].height/3)
+                    ctx.fillText(moleArr[i].mole.password,moleArr[i].x + moleArr[i].width/2 - xOffset,moleArr[i].y + moleArr[i].height/3)
                 }
-                //ctx.strokeText("password " + i, moleArr[i].x, moleArr[i].y + moleArr[i].height/2);
 	}
 	
 }
