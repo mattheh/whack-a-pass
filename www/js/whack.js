@@ -21,6 +21,7 @@ var app = {
 
 };
 var baseDelay = 5000
+var hitMissDelay = 2000
 var score = 0;
 var lives =3;
 var timer = 120000
@@ -46,6 +47,23 @@ function mole(password,type){
 	this.delay = baseDelay;
 	this.currentType = 3
 
+}
+
+function hit(){
+        var hitImage = new Image();
+        hitImage.src = 'assets/img/hit.png';
+        this.img = hitImage; 
+        this.password = '';
+        this.delay = hitMissDelay;
+        this.currentType = -1;
+}
+function miss(){
+        var missImage = new Image();
+        missImage.src = 'assets/img/miss.png';
+        this.img = missImage; 
+        this.password = '';
+        this.delay = hitMissDelay;
+        this.currentType = -1;
 }
 
 var canvas = document.createElement("canvas");
@@ -76,8 +94,8 @@ var xOffset = 0;
 function calculateXOffset(string){
         return string.length * 4;
 }
-var hit = new Audio("assets/audio/hit.wav")
-var miss = new Audio("assets/audio/miss.wav")
+var hitSound = new Audio("assets/audio/hit.wav")
+var missSound = new Audio("assets/audio/miss.wav")
 function clickHandler(e){
 	
 	
@@ -87,12 +105,14 @@ function clickHandler(e){
 				if(e.touches[i].pageX >= moleArr[j].x && e.touches[i].pageX <= moleArr[j].x +moleArr[j].width && e.touches[i].pageY >= moleArr[j].y && e.touches[i].pageY <= moleArr[j].y + moleArr[j].height){
 					if(moleArr[j].mole.targetType == moleArr[j].mole.currentType){
 						score = score + Math.floor(moleArr[j].mole.delay/10)
-                                                hit.play()
+                                                hitSound.play()
+                                                moleArr[j].mole = new hit();
                                         }else{
 						lives--;
-                                                miss.play()
+                                                missSound.play()
+                                                  moleArr[j].mole = new miss();
                                         }
-					moleArr[j].mole = null
+					//moleArr[j].mole = null
 				}
 			}
 		}
