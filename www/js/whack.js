@@ -25,21 +25,21 @@ var score = 0;
 var lives =3;
 var timer = 120000
 var bgImage = new Image();
-bgImage.src = 'img/grass.jpg';
+bgImage.src = 'assets/img/grass.jpg';
 function moleHole(x,y){
 	this.x = x;
 	this.y=y;
         this.width = window.innerWidth/2;
         this.height = window.innerHeight/4;
 	var holeImage = new Image();
-	holeImage.src = 'img/mole_hole.png';
+	holeImage.src = 'assets/img/mole_hole.png';
 	this.img = holeImage;
 	this.mole = null;
 }
 
 function mole(password,type){
         var moleImage = new Image();
-        moleImage.src = 'img/mole_red.png';
+        moleImage.src = 'assets/img/mole_red.png';
         this.img = moleImage;
 	this.password = password;
 	this.targetType = type;
@@ -76,6 +76,8 @@ var xOffset = 0;
 function calculateXOffset(string){
         return string.length * 4;
 }
+var hit = new Audio("assets/audio/hit.wav")
+var miss = new Audio("assets/audio/miss.wav")
 function clickHandler(e){
 	
 	
@@ -83,10 +85,13 @@ function clickHandler(e){
 		for(i=0;i<e.touches.length;i++){
 			for(j=0;j<6;j++){
 				if(e.touches[i].pageX >= moleArr[j].x && e.touches[i].pageX <= moleArr[j].x +moleArr[j].width && e.touches[i].pageY >= moleArr[j].y && e.touches[i].pageY <= moleArr[j].y + moleArr[j].height){
-					if(moleArr[j].mole.targetType == moleArr[j].mole.currentType)
+					if(moleArr[j].mole.targetType == moleArr[j].mole.currentType){
 						score = score + Math.floor(moleArr[j].mole.delay/10)
-					else
+                                                hit.play()
+                                        }else{
 						lives--;
+                                                miss.play()
+                                        }
 					moleArr[j].mole = null
 				}
 			}
@@ -133,13 +138,13 @@ function editObjects(dt){
 			if(moleArr[i].mole.delay <= 0){
 			if(moleArr[i].mole.currentType == 3){
 				var moleImage = new Image();
-				moleImage.src = 'img/mole_yellow.png';
+				moleImage.src = 'assets/img/mole_yellow.png';
 				moleArr[i].mole.img  = moleImage;
 				moleArr[i].mole.currentType = 2;
 				moleArr[i].mole.delay = baseDelay;
 			} else if (moleArr[i].mole.currentType == 2){
 				var moleImage = new Image();
-				moleImage.src = 'img/mole_green.png';
+				moleImage.src = 'assets/img/mole_green.png';
 				moleArr[i].mole.img  = moleImage;
 				moleArr[i].mole.currentType = 1;
 				moleArr[i].mole.delay = baseDelay;
