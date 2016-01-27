@@ -21,29 +21,49 @@ var app = {
 
 };
 var baseDelay = 5000
+var hitMissDelay = 2000
 var score = 0;
+var lives =3;
+var timer = 120000
 var bgImage = new Image();
-bgImage.src = 'img/grass.jpg';
+bgImage.src = 'assets/img/grass.jpg';
 function moleHole(x,y){
 	this.x = x;
 	this.y=y;
         this.width = window.innerWidth/2;
         this.height = window.innerHeight/4;
 	var holeImage = new Image();
-	holeImage.src = 'img/mole_hole.png';
+	holeImage.src = 'assets/img/mole_hole.png';
 	this.img = holeImage;
 	this.mole = null;
 }
 
 function mole(password,type){
         var moleImage = new Image();
-        moleImage.src = 'img/mole_red.png';
+        moleImage.src = 'assets/img/mole_red.png';
         this.img = moleImage;
 	this.password = password;
 	this.targetType = type;
 	this.delay = baseDelay;
 	this.currentType = 3
 
+}
+
+function hit(){
+        var hitImage = new Image();
+        hitImage.src = 'assets/img/hit.png';
+        this.img = hitImage; 
+        this.password = '';
+        this.delay = hitMissDelay;
+        this.currentType = -1;
+}
+function miss(){
+        var missImage = new Image();
+        missImage.src = 'assets/img/miss.png';
+        this.img = missImage; 
+        this.password = '';
+        this.delay = hitMissDelay;
+        this.currentType = -1;
 }
 
 var canvas = document.createElement("canvas");
@@ -59,12 +79,23 @@ for (i = 0; i < 2; i++)
                 moleArr.push(new moleHole(i*(window.innerWidth/2),(j*3+1)*(window.innerHeight/10)))
 var lastTime;
 function update(){
+	timer = timer - (Date.now() - lastTime)
+	if(timer <= 0 || lives <=0){
+		alert('Final Score: ' + score)
+		timer = 120000;
+		lives = 3;
+		score = 0;
+		for(j=0;j<6;j++)
+			moleArr[j].mole = null
+	}
 	editObjects(Date.now() - lastTime)
 }
 var xOffset = 0;
 function calculateXOffset(string){
         return string.length * 4;
 }
+var hitSound = new Audio("assets/audio/hit.wav")
+var missSound = new Audio("assets/audio/miss.wav")
 function clickHandler(e){
 	
 	
@@ -72,11 +103,16 @@ function clickHandler(e){
 		for(i=0;i<e.touches.length;i++){
 			for(j=0;j<6;j++){
 				if(e.touches[i].pageX >= moleArr[j].x && e.touches[i].pageX <= moleArr[j].x +moleArr[j].width && e.touches[i].pageY >= moleArr[j].y && e.touches[i].pageY <= moleArr[j].y + moleArr[j].height){
-					if(moleArr[j].mole.targetType == moleArr[j].mole.currentType)
-						score++;
-					else
-						score--;
-					moleArr[j].mole = null
+					if(moleArr[j].mole.targetType == moleArr[j].mole.currentType){
+						score = score + Math.floor(moleArr[j].mole.delay/10)
+                                                hitSound.play()
+                                                moleArr[j].mole = new hit();
+                                        }else{
+						lives--;
+                                                missSound.play()
+                                                  moleArr[j].mole = new miss();
+                                        }
+					//moleArr[j].mole = null
 				}
 			}
 		}
@@ -109,13 +145,12 @@ function main (){
 	render()
 	requestAnimationFrame(main)
 }
-var millisecondsPerMole = 3000;
+var millisecondsPerMole = 4500;
 function editObjects(dt){
 	for (i=0;i<6;i++){
 		if (Math.random() < (1/millisecondsPerMole)*dt && moleArr[i].mole == null){
 			var random = getRandomInt(0,jsonObject.length -1)
 			moleArr[i].mole = new mole(jsonObject[random].Password,jsonObject[random].Type)
-			console.log(moleArr[i].mole)
 		}
 		if(moleArr[i].mole != null){
 			moleArr[i].mole.delay = moleArr[i].mole.delay - dt
@@ -123,13 +158,13 @@ function editObjects(dt){
 			if(moleArr[i].mole.delay <= 0){
 			if(moleArr[i].mole.currentType == 3){
 				var moleImage = new Image();
-				moleImage.src = 'img/mole_yellow.png';
+				moleImage.src = 'assets/img/mole_yellow.png';
 				moleArr[i].mole.img  = moleImage;
 				moleArr[i].mole.currentType = 2;
 				moleArr[i].mole.delay = baseDelay;
 			} else if (moleArr[i].mole.currentType == 2){
 				var moleImage = new Image();
-				moleImage.src = 'img/mole_green.png';
+				moleImage.src = 'assets/img/mole_green.png';
 				moleArr[i].mole.img  = moleImage;
 				moleArr[i].mole.currentType = 1;
 				moleArr[i].mole.delay = baseDelay;
