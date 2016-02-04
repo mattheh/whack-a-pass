@@ -112,7 +112,6 @@ function touchStart(e){
 		for(i=0;i<e.touches.length;i++){
 			for(j=0;j<6;j++){
 				if(e.touches[i].pageX >= moleArr[j].x && e.touches[i].pageX <= moleArr[j].x +moleArr[j].width && e.touches[i].pageY >= moleArr[j].y && e.touches[i].pageY <= moleArr[j].y + moleArr[j].height && moleArr[j].mole){
-                                  //wheel = new colorWheel(moleArr[j].x - moleArr[j].width/2,moleArr[j].y - moleArr[j].height);
                                   wheel = new colorWheel(e.touches[i].pageX,e.touches[i].pageY, j);
 				}
 			}
@@ -122,7 +121,6 @@ function touchStart(e){
 }
 function touchEnd(e){
         console.log(e.changedTouches[0].pageX, e.changedTouches[0].pageY)
-        //console.log(e.changedTouches[0].pageY)
         if(wheel === null){return}
         if(moleArr[wheel.attachedTo].mole === null){
           wheel = null;
